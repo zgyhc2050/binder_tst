@@ -71,6 +71,7 @@ int main(int argc, char* argv[])
 
     s32Ret = pPicture->setAspect(2080);
 
+
 #endif
 
     return 0;

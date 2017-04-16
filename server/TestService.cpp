@@ -1,6 +1,8 @@
 #include <binder/IPCThreadState.h>
 #include <binder/IServiceManager.h>
-#include <utils/Log.h>
+//#include <utils/Log.h>
+#include <cutils/log.h>
+
 #include <binder/Parcel.h>
 #include <binder/IPCThreadState.h>
 #include <utils/threads.h>
@@ -11,6 +13,7 @@
 //#define LOG_NDEBUG 0
 //#define LOG_TAG "chenxf: TestService"
 #include "picture_module.h"
+extern YHC_CMD_INSTRUCT_ST g_apnfInstruct_cmd[100];
 
 namespace android {
     TestService::TestService()
@@ -35,9 +38,11 @@ namespace android {
         YHC_CMD_INSTRUCT_E enCmd = (YHC_CMD_INSTRUCT_E)in.readInt32();
         for (YHC_U32 i=0; i<sizeof(g_apnfInstruct_cmd); i++)
         {
-            if (g_apnfInstruct_cmd[i].enFuncCmd = enCmd)
+            if (g_apnfInstruct_cmd[i].enFuncCmd == enCmd)
             {
+                LOGD("#2TestService::invoke enCmd: %d", enCmd);
                 s32Ret = (*g_apnfInstruct_cmd[i].pnfFunction)(in, out);
+                LOGD("#3TestService::invoke enCmd: %d", enCmd);
                 break;
             }
         }
@@ -45,7 +50,8 @@ namespace android {
     }
     int TestService::notify(int type, unsigned int data)
     {
-        LOGD("TestService::notify type:%d, first data:%d", type, data);
+        LOGD("\033[0;35mW/1#TestService::notify type:%d, first data:%d\033[0m", type, data);
+        LOGW("2#TestService::notify type:%d, first data:%d", type, data);
         m_Callback->notify(type, data);
 
         return -222;

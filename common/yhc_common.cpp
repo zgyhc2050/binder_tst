@@ -1,12 +1,11 @@
-
 #include "yhc_common_type.h"
-#include "yhc_common.h"
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
+#include "yhc_common.h"
 
-
-YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pFile, const YHC_CHAR *pFunc, YHC_U32 u32Line, const YHC_CHAR *fmt, ...)
+#if 0
+YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pFile, const YHC_CHAR *pFunc, YHC_U32 u32Line, const YHC_CHAR *fmt...)
 {
     YHC_U32         u32Length = 0;
     YHC_CHAR        astrLine[10];
@@ -80,3 +79,4 @@ YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pFile, const YHC
     va_end(arg_ptr);
 }
 
+#endif
