@@ -1,10 +1,11 @@
 #include <binder/Parcel.h>
 #include <binder/IInterface.h>
-#include <utils/Log.h>
 #include "ICallback.h"
+#include "yhc_common.h"
 
 //#define LOG_NDEBUG 0
-//#define LOG_TAG "binder@ITestCallback"
+//#undef LOG_TAG
+#define LOG_TAG "YHC@ICallback.cpp"
 
 namespace android {
 

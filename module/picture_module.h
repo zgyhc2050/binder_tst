@@ -1,7 +1,7 @@
 #ifndef __PICTURE_MODULE_H__
 #define __PICTURE_MODULE_H__
 
-#include "yhc_common_type.h"
+#include "yhc_type.h"
 #include "yhc_common.h"
 #include <binder/Parcel.h>
 

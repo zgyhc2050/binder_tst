@@ -1,7 +1,7 @@
 #ifndef __LOGIC_PICTURE_H__
 #define __LOGIC_PICTURE_H__
 
-#include "yhc_common_type.h"
+#include "yhc_type.h"
 #include "yhc_common.h"
 #include "TestService.h"
 

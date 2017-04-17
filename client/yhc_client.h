@@ -4,7 +4,7 @@
 #include <binder/Parcel.h>
 //#include "../interface/ITestService.h"
 #include "ITestService.h"
-#include "yhc_common_type.h"
+#include "yhc_type.h"
 #include "yhc_interface.h"
 
 #include <stdlib.h>

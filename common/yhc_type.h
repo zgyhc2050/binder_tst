@@ -1,5 +1,5 @@
-#ifndef __YHC_COMMON__
-#define __YHC_COMMON__
+#ifndef __YHC_TYPE_H__
+#define __YHC_TYPE_H__
 
 #include <stdio.h>
 
@@ -33,4 +33,4 @@ typedef enum YHC_BOOL_E
 #define YHC_NULL        NULL
 
 
-#endif /* end of __YHC_COMMON__ */
+#endif /* end of __YHC_TYPE_H__ */

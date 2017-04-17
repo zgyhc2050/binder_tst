@@ -1,18 +1,20 @@
 #include <binder/IPCThreadState.h>
 #include <binder/IServiceManager.h>
-//#include <utils/Log.h>
-#include <cutils/log.h>
-
 #include <binder/Parcel.h>
 #include <binder/IPCThreadState.h>
 #include <utils/threads.h>
-#include "yhc_common_type.h"
-
 #include <cutils/properties.h>
 #include "TestService.h"
-//#define LOG_NDEBUG 0
-//#define LOG_TAG "chenxf: TestService"
+
 #include "picture_module.h"
+#include "yhc_type.h"
+#include "yhc_common.h"
+
+#undef LOG_TAG
+#undef LOG_NDEBUG
+#define LOG_NDEBUG 0
+#define LOG_TAG "YHC@TestService.cpp"
+
 extern YHC_CMD_INSTRUCT_ST g_apnfInstruct_cmd[100];
 
 namespace android {
@@ -50,8 +52,7 @@ namespace android {
     }
     int TestService::notify(int type, unsigned int data)
     {
-        LOGD("\033[0;35mW/1#TestService::notify type:%d, first data:%d\033[0m", type, data);
-        LOGW("2#TestService::notify type:%d, first data:%d", type, data);
+        LOGW("notify type:%d, first data:%d", type, data);
         m_Callback->notify(type, data);
 
         return -222;
@@ -59,7 +60,7 @@ namespace android {
 
     int TestService::connect(const sp<ITestCallback>& callback)
     {
-        LOGD(" TestService::connect");
+        LOGF("TestService::connect");
         m_Callback = callback;
         return 0;
     }

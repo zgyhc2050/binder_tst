@@ -1,8 +1,7 @@
-#include "yhc_common_type.h"
-#include <cutils/log.h>
+#ifndef __YHC_COMMON_H__
+#define __YHC_COMMON_H__
 
-#ifndef __YHC_COMMON__
-#define __YHC_COMMON__
+#include "yhc_type.h"
 
 #define ANDROID_SYSTEM
 
@@ -30,146 +29,49 @@ typedef enum Yhc_ATTR_TYPE_E
     ATTR_TYPE_TEST_BUTT = 2,
 }YHC_ATTR_TYPE_E;
 
-YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pFile, \
-    const YHC_CHAR *pFunc, YHC_U32 u32Line, const YHC_CHAR *fmt, ...)
-{
-    YHC_U32         u32Length = 0;
-    YHC_CHAR        astrLine[10];
-    YHC_CHAR        au32Str[LOG_MAX_CHAR];
-    const YHC_CHAR  *pstrTemp = YHC_NULL;
-    va_list         arg_ptr;
+YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pTag, const YHC_CHAR *pFunc, YHC_U32 u32Line, const YHC_CHAR *fmt, ...);
 
-    va_start(arg_ptr, fmt);
-
-    /* display file name */
-    strncpy(au32Str+u32Length, pFile, strlen(pFile));
-    u32Length += strlen(pFile);
-    au32Str[u32Length] = ':';
-    u32Length++;
-
-    /* display function name */
-    strncpy(au32Str+u32Length, pFunc, strlen(pFunc));
-    u32Length += strlen(pFunc);
-    au32Str[u32Length] = ':';
-    u32Length++;
-
-    /* display line number */
-    sprintf(astrLine, "%d", u32Line);
-    strncpy(au32Str+u32Length, astrLine, strlen(astrLine));
-    u32Length += strlen(astrLine);
-    au32Str[u32Length] = ',';
-    u32Length++;
-
-    /* display variable parameter*/
-    u32Length += vsprintf(au32Str+u32Length, fmt, arg_ptr);
-
-    au32Str[u32Length] = '\0';
-
-#if ANDROID_SYSTEM
-
-    switch(enPrintLevel)
-    {
-        case YHC_PRINT_LEVEL_V:
-            /* 白色 white */
-            LOGV("\033[0;37mV/%s\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_D:
-            /* 深绿色 deep green*/
-            LOGD("\033[0;36mD/%s\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_I:
-            /* 绿色 green */
-            LOGI("\033[0;32mI/%s\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_W:
-            /* 蓝色 blue */
-            LOGW("\033[0;35mW/%s\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_E:
-            /* 红色 red */
-            LOGE("\033[0;31mE/%s\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_F:
-            /* 高亮、闪烁、反显、下划线、红色 highilght,twinkle,reverse,underline,red*/
-            LOGF("\033[1;4;5;7;31mF/%s\033[0m", au32Str);
-            break;
-
-        default:
-            LOGD("%s", au32Str);
-            break;
-    }
-
-#else
-
-    switch(enPrintLevel)
-    {
-        case YHC_PRINT_LEVEL_V:
-            /* 白色 white */
-            printf("\033[0;37mV/%s\n\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_D:
-            /* 深绿色 deep green*/
-            printf("\033[0;36mD/%s\n\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_I:
-            /* 绿色 green */
-            printf("\033[0;32mI/%s\n\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_W:
-            /* 蓝色 blue */
-            printf("\033[0;35mW/%s\n\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_E:
-            /* 红色 red */
-            printf("\033[0;31mE/%s\n\033[0m", au32Str);
-            break;
-
-        case YHC_PRINT_LEVEL_F:
-            /* 高亮、闪烁、反显、下划线、红色 highilght,twinkle,reverse,underline,red*/
-            printf("\033[1;4;5;7;31mF/%s\n\033[0m", au32Str);
-            break;
-
-        default:
-            printf("%s\n", au32Str);
-            break;
-    }
-#endif
-    va_end(arg_ptr);
-}
-
-#ifndef LOG_NDEBUG
+//#ifndef LOG_NDEBUG
 #define LOG(type, ...)\
-    logPrint(type, __FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
-#else
-#define LOG(type, ...)
+    logPrint(type, LOG_TAG, __FUNCTION__, __LINE__, __VA_ARGS__)
+//#else
+//#define LOG(type, ...)
+//#endif
+
+#ifdef LOGV
+#undef LOGV
 #endif
-
-
-#define LOG_V(...) \
+#define LOGV(...) \
     LOG(YHC_PRINT_LEVEL_V, __VA_ARGS__)
 
-#define LOG_D(...) \
+#ifdef LOGD
+#undef LOGD
+#endif
+#define LOGD(...) \
     LOG(YHC_PRINT_LEVEL_D, __VA_ARGS__)
 
-#define LOG_I(...) \
+#ifdef LOGI
+#undef LOGI
+#endif
+#define LOGI(...) \
     LOG(YHC_PRINT_LEVEL_I, __VA_ARGS__)
 
-#define LOG_W(...) \
+#ifdef LOGW
+#undef LOGW
+#endif
+#define LOGW(...) \
     LOG(YHC_PRINT_LEVEL_W, __VA_ARGS__)
 
-#define LOG_E(...) \
+#ifdef LOGE
+#undef LOGE
+#endif
+#define LOGE(...) \
     LOG(YHC_PRINT_LEVEL_E, __VA_ARGS__)
 
-#define LOG_F(...) \
+#ifdef LOGF
+#undef LOGF
+#endif
+#define LOGF(...) \
     LOG(YHC_PRINT_LEVEL_F, __VA_ARGS__)
 
 
@@ -219,4 +121,4 @@ YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pFile, \
 
 
 
-#endif /* end of __YHC_COMMON__ */
+#endif /* end of __YHC_COMMON_H__ */

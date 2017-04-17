@@ -1,7 +1,7 @@
 #ifndef __YHC_INTERFACE_H__
 #define __YHC_INTERFACE_H__
 
-#include "yhc_common_type.h"
+#include "yhc_type.h"
 #include "yhc_client.h"
 #include <binder/Parcel.h>
 

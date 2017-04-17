@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include "../interface/ITestService.h"
 #include <binder/IServiceManager.h>
-//#include <utils/Log.h>
 #include <stdlib.h>
-#include "yhc_common_type.h"
+
+#include "yhc_type.h"
 #include "yhc_client.h"
 #include "Callback.h"
+#include "yhc_common.h"
 
 
 
-//#define LOG_NDEBUG 0
-//#define LOG_TAG "chenxf: Client-main"
+#define LOG_NDEBUG 0
+//#undef LOG_TAG
+#define LOG_TAG "YHC@main_TestClient.cpp"
 
 using namespace android;
 
@@ -58,11 +60,11 @@ int main(int argc, char* argv[])
 
     in.writeInt32(0);
     in.writeInt32(1000);
-    LOGD("invoke start");
+    LOGE("invoke start");
 
     ret = mTestService->invoke(in, &out);
 
-    LOGD("invoke end, retrun value:%d, ret:%d", out.readInt32(), ret);
+    LOGI("invoke end, retrun value:%d, ret:%d", out.readInt32(), ret);
 #else
 
     int s32Ret = YHC_SUCCESS;

@@ -3,11 +3,10 @@
 #include <utils/String16.h>
 #include <utils/threads.h>
 #include <utils/Atomic.h>
-
 #include <cutils/properties.h>
 #include <cutils/compiler.h>
 #include "Callback.h"
-#include <utils/Log.h>
+#include "yhc_common.h"
 
 #ifdef LOG_TAG
 #undef LOG_TAG

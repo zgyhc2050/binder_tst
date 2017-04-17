@@ -1,11 +1,12 @@
 #include "ITestService.h"
 #include <binder/Parcel.h>
 #include <binder/IInterface.h>
-#include <utils/Log.h>
 #include "ICallback.h"
+#include "yhc_common.h"
 
-//#define LOG_NDEBUG 0
-//#define LOG_TAG "binder@ITestService"
+#define LOG_NDEBUG 0
+#undef LOG_TAG
+#define LOG_TAG "YHC@ITestService.cpp"
 
 namespace android {
 
@@ -33,7 +34,7 @@ public:
     }
     virtual int getSomething()
     {
-        LOGW(" BpTestService::getSomething ");
+        LOGW("BpTestService::getSomething ");
         Parcel data,reply;
         data.writeInterfaceToken(ITestService::getInterfaceDescriptor());
         remote()->transact(GET_SOMETHING,data,&reply);
@@ -42,7 +43,7 @@ public:
     virtual int invoke(const Parcel &in, Parcel *out)
     {
         int ret = 0;
-        LOGW(" BpTestService::invoke ");
+        LOGW("BpTestService::invoke ");
         //data.writeInterfaceToken(ITestService::getInterfaceDescriptor());
         ret = remote()->transact(0, in, out);
         return ret;
