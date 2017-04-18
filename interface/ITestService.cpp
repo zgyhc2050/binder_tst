@@ -1,12 +1,11 @@
+#define LOG_NDEBUG 0
+#define LOG_TAG "YHC@ITestService.cpp"
+
 #include "ITestService.h"
 #include <binder/Parcel.h>
 #include <binder/IInterface.h>
 #include "ICallback.h"
 #include "yhc_common.h"
-
-#define LOG_NDEBUG 0
-#undef LOG_TAG
-#define LOG_TAG "YHC@ITestService.cpp"
 
 namespace android {
 

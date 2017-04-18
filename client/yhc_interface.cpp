@@ -1,15 +1,10 @@
-#include "yhc_interface.h"
-#include <utils/Log.h>
-
-#ifdef LOG_TAG
-#undef LOG_TAG
-#define LOG_TAG "binder:yhc_interface.cpp"
-#endif
-
-#ifdef LOG_NDEBUG
-#undef LOG_NDEBUG
 #define LOG_NDEBUG 0
-#endif
+#define LOG_TAG "YHC@yhc_interface.cpp"
+
+#include "yhc_interface.h"
+#include "yhc_common.h"
+
+
 
 
 namespace android {

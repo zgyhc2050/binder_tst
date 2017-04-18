@@ -1,3 +1,6 @@
+#define LOG_NDEBUG 0
+#define LOG_TAG "YHC@Callback.cpp"
+
 #include <binder/Parcel.h>
 #include <binder/IPCThreadState.h>
 #include <utils/String16.h>
@@ -7,16 +10,6 @@
 #include <cutils/compiler.h>
 #include "Callback.h"
 #include "yhc_common.h"
-
-#ifdef LOG_TAG
-#undef LOG_TAG
-#define LOG_TAG "binder:Callback.cpp"
-#endif
-
-#ifdef LOG_NDEBUG
-#undef LOG_NDEBUG
-#define LOG_NDEBUG 0
-#endif
 
 namespace android {
 

@@ -1,11 +1,13 @@
+#define LOG_NDEBUG 0
+//#undef LOG_TAG
+#define LOG_TAG "YHC@ICallback.cpp"
+
+
+
 #include <binder/Parcel.h>
 #include <binder/IInterface.h>
 #include "ICallback.h"
 #include "yhc_common.h"
-
-//#define LOG_NDEBUG 0
-//#undef LOG_TAG
-#define LOG_TAG "YHC@ICallback.cpp"
 
 namespace android {
 
@@ -26,12 +28,12 @@ public:
     {
         int ret = 0;
         Parcel data, reply;
-        LOGW(" BpTestCallback::invoke ");
+        LOGW(" type:%d, dat:%d", type, dat);
         data.writeInt32(type);
         data.writeInt32(dat);
         //data.writeInterfaceToken(ITestCallback::getInterfaceDescriptor());
-        ret = remote()->transact(0, data, &reply);
-        return ret;
+        ret = remote()->transact(SET_NOTIFY, data, &reply);
+        return NO_ERROR;
     }
 };
 

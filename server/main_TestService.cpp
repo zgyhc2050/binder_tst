@@ -1,9 +1,9 @@
 #include <binder/IPCThreadState.h>
 #include <binder/ProcessState.h>
 #include <binder/IServiceManager.h>
-#include <utils/Log.h>
 
 #include "TestService.h"
+#include "yhc_common.h"
 //#define LOG_NDEBUG 0
 //#define LOG_TAG "yhc: TestService-main"
 

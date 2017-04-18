@@ -1,7 +1,9 @@
-
+#define LOG_NDEBUG 0
+#define LOG_TAG "YHC@picture_module.cpp"
 
 #include "picture_module.h"
 #include "logic_picture.h"
+#include "yhc_common.h"
 
 using namespace android;
 
