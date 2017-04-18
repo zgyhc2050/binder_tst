@@ -1,3 +1,6 @@
+#define LOG_NDEBUG 0
+#define LOG_TAG "YHC@main_TestClient.cpp"
+
 #include <stdio.h>
 #include "../interface/ITestService.h"
 #include <binder/IServiceManager.h>
@@ -9,10 +12,6 @@
 #include "yhc_common.h"
 
 
-
-#define LOG_NDEBUG 0
-//#undef LOG_TAG
-#define LOG_TAG "YHC@main_TestClient.cpp"
 
 using namespace android;
 
@@ -61,8 +60,13 @@ int main(int argc, char* argv[])
     in.writeInt32(0);
     in.writeInt32(1000);
     LOGE("invoke start");
-
     ret = mTestService->invoke(in, &out);
+    while(0)
+    {
+        ret = mTestService->invoke(in, &out);
+        LOGW("send notify to Client! type:111, data:222");
+        sleep(1);
+    }
 
     LOGI("invoke end, retrun value:%d, ret:%d", out.readInt32(), ret);
 #else

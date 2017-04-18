@@ -31,12 +31,16 @@ typedef enum Yhc_ATTR_TYPE_E
 
 YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pTag, const YHC_CHAR *pFunc, YHC_U32 u32Line, const YHC_CHAR *fmt, ...);
 
-//#ifndef LOG_NDEBUG
+#ifdef LOG
+#undef LOG
+#endif
+
+#if(0 == LOG_NDEBUG)
 #define LOG(type, ...)\
     logPrint(type, LOG_TAG, __FUNCTION__, __LINE__, __VA_ARGS__)
-//#else
-//#define LOG(type, ...)
-//#endif
+#else
+#define LOG(type, ...)
+#endif
 
 #ifdef LOGV
 #undef LOGV

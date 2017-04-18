@@ -1,19 +1,17 @@
+#define LOG_NDEBUG 0
+#define LOG_TAG "YHC@TestService.cpp"
+
 #include <binder/IPCThreadState.h>
 #include <binder/IServiceManager.h>
 #include <binder/Parcel.h>
 #include <binder/IPCThreadState.h>
 #include <utils/threads.h>
 #include <cutils/properties.h>
-#include "TestService.h"
 
+#include "TestService.h"
 #include "picture_module.h"
 #include "yhc_type.h"
 #include "yhc_common.h"
-
-#undef LOG_TAG
-#undef LOG_NDEBUG
-#define LOG_NDEBUG 0
-#define LOG_TAG "YHC@TestService.cpp"
 
 extern YHC_CMD_INSTRUCT_ST g_apnfInstruct_cmd[100];
 

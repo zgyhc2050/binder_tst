@@ -1,5 +1,6 @@
 #include "yhc_client.h"
 #include <binder/IServiceManager.h>
+#include "yhc_common.h"
 
 namespace android {
 
