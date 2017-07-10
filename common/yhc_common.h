@@ -89,7 +89,7 @@ YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pTag, const YHC_
     {                                   \
         if (YHC_NULL == ptr)            \
         {                               \
-            printf("NULL Pointer!\n");  \
+            LOGE("NULL Pointer!");      \
             return YHC_FAILURE;         \
         }                               \
     }while(0)
@@ -104,6 +104,18 @@ YHC_VOID logPrint(YHC_LOG_LEVEL_E enPrintLevel, const YHC_CHAR *pTag, const YHC_
             return s32Ret;                         \
         }                                          \
     }while(0)
+
+#define CHECK_RET_RANGE(min, max, value)           \
+    do                                             \
+    {                                              \
+        if (value < min || value > max)            \
+        {                                          \
+            LOGE("out of range, value:%d", value); \
+            return YHC_FAILURE;                    \
+        }                                          \
+    }while(0)
+
+
 
 #define CHECK_RET_DEBUG_LOG(s32Ret, ...)           \
     do                                             \

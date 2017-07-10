@@ -30,5 +30,5 @@ YHC_S32 setAspect(const Parcel &in, Parcel *out);
 YHC_S32 getAspect(const Parcel &in, Parcel *out);
 
 
+#endif /* end of __PICTURE_MODULE_H__ */
 
-#endif
