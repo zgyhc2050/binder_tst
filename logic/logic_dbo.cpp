@@ -6,31 +6,21 @@
 #include "yhc_common.h"
 
 
+YhcDbo *YhcDbo::m_pYhcDboClass = YHC_NULL;
 
 
 
-YHC_S32 inserUsrData()
+YHC_S32 YhcDbo::inserUsrData()
 {
     YHC_DB_TEST1_ST stTest1 = {60, 1920, 1080, YHC_TRUE};
-    YHC_DB_TEST2_ST stTest2 = {"zgyhc2050", 960, 720, YHC_FALSE};
+    YHC_DB_TEST2_ST stTest2 = {"zgyhc2050", 720, YHC_FALSE};
 
-    YhcDbo::getDbo()->insert(YHC_DBO_ATTR_TEST1, &stTest1, sizeof(YHC_DB_TEST1_ST));
-    YhcDbo::getDbo()->insert(YHC_DBO_ATTR_TEST2, &stTest2, sizeof(YHC_DB_TEST2_ST));
+    insert(YHC_DBO_ATTR_TEST1, &stTest1, sizeof(YHC_DB_TEST1_ST));
+    insert(YHC_DBO_ATTR_TEST2, &stTest2, sizeof(YHC_DB_TEST2_ST));
 
     return YHC_SUCCESS;
 }
 
-
-YhcDbo::YhcDbo()
-{
-    init("usr.db", 0);
-    inserUsrData();
-}
-
-YhcDbo::~YhcDbo()
-{
-
-}
 
 
 
@@ -56,6 +46,7 @@ YHC_S32 YhcDbo::init(YHC_CHAR *pFileStr, YHC_U32 u32Id)
 
     m_pFileStorage->init(pFileStr, u32Id);
 
+
     return YHC_SUCCESS;
 }
 
@@ -65,22 +56,47 @@ YHC_S32 YhcDbo::insert(YHC_DBO_ATTR_E enDbAttr, YHC_VOID *pData, YHC_U32 u32Leng
     CHECK_PARA_NULL(pData);
 
     YHC_DB_DATA_ST stData;
+    memset(&stData, 0, sizeof(YHC_DB_DATA_ST));
+
     if (0 == m_mapDbo.size())
     {
         LOGI("first insert data");
     }
+    else
+    {
+        LOGW("stData.u32Len:%d", m_mapDbo[enDbAttr]->u32Len);
+
+    }
 
     map<YHC_U32, YHC_DB_DATA_ST *>::iterator it = m_mapDbo.find(enDbAttr);
     map<YHC_U32, YHC_DB_DATA_ST *>::reverse_iterator iter = m_mapDbo.rbegin();
+
+
+
     if (it == m_mapDbo.end())
     {
-       stData.u32Pos = iter->second->u32Pos;
+        stData.u32Pos = 0;
+
+        for (it = m_mapDbo.begin(); it != m_mapDbo.end(); it++)
+        {
+            stData.u32Pos = it->second->u32Len;
+            stData.u32Pos = m_mapDbo[0]->u32Len;
+            LOGW("stData.u32Pos:%d", stData.u32Pos);
+        }
+
        stData.u32FileId = 0;
        stData.u32Len = u32Length;
        stData.u32CheckSum = checkSum(pData, u32Length);
        m_mapDbo[enDbAttr] = &stData;
+       LOGI("enDbAttr;%d, u32Length:%d, u32Pos:%d", enDbAttr, u32Length, stData.u32Pos);
 
        m_pFileStorage->write(stData.u32Pos, &stData, u32Length);
+
+
+    map<YHC_U32, YHC_DB_DATA_ST *>::iterator itcur = m_mapDbo.find(enDbAttr);
+
+    LOGW("000 length:%d and query length:%d, pos:%d",
+        u32Length, itcur->second->u32Len, itcur->second->u32Pos);
     }
     else
     {
@@ -94,6 +110,14 @@ YHC_S32 YhcDbo::insert(YHC_DBO_ATTR_E enDbAttr, YHC_VOID *pData, YHC_U32 u32Leng
 
 YHC_S32 YhcDbo::query(YHC_DBO_ATTR_E enDbAttr, YHC_VOID *pData, YHC_U32 u32Length)
 {
+    map<YHC_U32, YHC_DB_DATA_ST *>::iterator itccc = m_mapDbo.find(enDbAttr);
+
+    LOGW("yyyyyyy length:%d and query length:%d, pos:%d, enDbAttr:%d",
+        u32Length, itccc->second->u32Len, itccc->second->u32Pos, enDbAttr);
+
+
+
+
     CHECK_RET_RANGE(YHC_DBO_ATTR_TEST1, YHC_DBO_ATTR_BUTT-1, enDbAttr);
     CHECK_PARA_NULL(pData);
 
@@ -108,8 +132,14 @@ YHC_S32 YhcDbo::query(YHC_DBO_ATTR_E enDbAttr, YHC_VOID *pData, YHC_U32 u32Lengt
     {
         if (u32Length != it->second->u32Len)
         {
-            LOGE("data diff from DB length:%d and query length:%d, type:0x%x",
-                u32Length, it->second->u32Len, enDbAttr);
+            LOGE("diff from DB length:%d and query length:%d, type:0x%x, pos:%d",
+                u32Length, it->second->u32Len, enDbAttr, it->second->u32Pos);
+
+            LOGE("000 length:%d and query length:%d, pos:%d",
+                u32Length, m_mapDbo[0]->u32Len, m_mapDbo[0]->u32Pos);
+            LOGE("000 length:%d and query length:%d,  pos:%d",
+                u32Length, m_mapDbo[1]->u32Len,  m_mapDbo[1]->u32Pos);
+
             return YHC_FAILURE;
         }
         memcpy(pData, it->second->pData, sizeof(YHC_DB_DATA_ST));

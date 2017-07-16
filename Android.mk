@@ -36,7 +36,7 @@ LOCAL_SRC_FILES:= \
 
 
 LOCAL_SHARED_LIBRARIES := \
-        libui libcutils libutils libbinder libstdc++ libcrypto libexpat libicuuc libicui18n libssl libz libstlport
+        libui libcutils libutils libbinder libstdc++ libstlport
 LOCAL_STATIC_LIBRARIES := \
        libstdc++ libfdlibm
 
@@ -60,6 +60,8 @@ include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
 
+include external/stlport/libstlport.mk
+
 LOCAL_SRC_FILES:= \
     ./server/main_TestService.cpp \
     ./server/TestService.cpp \
@@ -68,9 +70,11 @@ LOCAL_SRC_FILES:= \
     ./module/picture_module.cpp\
     ./logic/logic_picture.cpp\
     ./common/yhc_common.cpp\
+	./logic/logic_dbo.cpp\
+    ./logic/yhc_file_storage.cpp\
 
 LOCAL_SHARED_LIBRARIES := \
-        libcutils libutils libbinder libdl
+        libcutils libutils libbinder libdl libstlport
 
 LOCAL_C_INCLUDES += \
     frameworks/base/include \
@@ -81,6 +85,7 @@ LOCAL_C_INCLUDES += \
     frameworks/binder_tst/module\
     frameworks/binder_tst/logic/include\
 	frameworks/binder_tst/server/\
+    frameworks/binder_tst/include\
     ./common/\
     $(VENDOR_SDK_INCLUDES)
 

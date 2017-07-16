@@ -18,6 +18,10 @@ extern YHC_CMD_INSTRUCT_ST g_apnfInstruct_cmd[100];
 namespace android {
     TestService::TestService()
     {
+        Parcel in;
+        Parcel out;
+        YHC_S32 s32Ret = YHC_SUCCESS;
+        s32Ret = (*g_apnfInstruct_cmd[0].pnfFunction)(in, &out);
         myParam = 0;
     }
 

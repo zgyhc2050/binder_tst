@@ -32,6 +32,8 @@ public:
 private:
     YhcDbo();
     ~YhcDbo();
+
+    YHC_S32 inserUsrData();
     map<YHC_U32, YHC_DB_DATA_ST *>   m_mapDbo;
     FileStorage *m_pFileStorage;
     static YhcDbo *m_pYhcDboClass;
@@ -40,7 +42,18 @@ private:
 };
 
 
-YhcDbo *YhcDbo::getDbo()
+inline YhcDbo::YhcDbo()
+{
+    init("/yhc/db/usr.db", 0);
+    inserUsrData();
+}
+
+inline YhcDbo::~YhcDbo()
+{
+
+}
+
+inline YhcDbo *YhcDbo::getDbo()
 {
     if (YHC_NULL == m_pYhcDboClass)
     {

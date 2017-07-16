@@ -10,10 +10,11 @@ using namespace android;
 
 typedef enum Yhc_CMD_INSTRUCT_E
 {
-    CMD_INSTRUCT_SETASPECT      = 0,
-    CMD_INSTRUCT_GETASPECT      = 1,
+    CMD_INSTRUCT_TEST1          = 0,
+    CMD_INSTRUCT_SETASPECT      = 1,
+    CMD_INSTRUCT_GETASPECT      = 2,
 
-    CMD_INSTRUCT_GETASPECT_BUTT = 2,
+    CMD_INSTRUCT_GETASPECT_BUTT = 3,
 }YHC_CMD_INSTRUCT_E;
 
 typedef YHC_S32 (*pnfModuleFunc)(const Parcel &, Parcel *);

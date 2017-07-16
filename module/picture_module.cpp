@@ -7,11 +7,13 @@
 
 using namespace android;
 
-YHC_CMD_INSTRUCT_ST g_apnfInstruct_cmd[100] = {
-    {CMD_INSTRUCT_SETASPECT, setAspect},
-    {CMD_INSTRUCT_GETASPECT, getAspect}
+YHC_S32 testMain(const Parcel &in, Parcel *out)
+{
+    setAspect(in, out);
+    return 0;
+}
 
-};
+
 
 YHC_S32 setAspect(const Parcel &in, Parcel *out)
 {
@@ -28,5 +30,12 @@ YHC_S32 getAspect(const Parcel &in, Parcel *out)
 
 
 
+
+YHC_CMD_INSTRUCT_ST g_apnfInstruct_cmd[100] = {
+    {CMD_INSTRUCT_TEST1, testMain},
+    {CMD_INSTRUCT_SETASPECT, setAspect},
+    {CMD_INSTRUCT_GETASPECT, getAspect}
+
+};
 
 
