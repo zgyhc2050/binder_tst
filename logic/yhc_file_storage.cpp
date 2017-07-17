@@ -65,18 +65,51 @@ YHC_S32 FileStorage::init(YHC_CHAR *pFileStr, YHC_U32 u32Id)
 YHC_S32 FileStorage::write(YHC_U32 u32pos, YHC_VOID *pData, YHC_U32 u32Length)
 {
     YHC_S32 s32Ret = YHC_SUCCESS;
+    LOGI("aa");
 
-    fseek(m_pFileID[*(YHC_U32 *)pData], u32pos, SEEK_SET);
+    fseek(m_pFileID[0], u32pos, SEEK_SET);
 
-    s32Ret = fwrite(pData, 1, u32Length, m_pFileID[*(YHC_U32 *)pData]);
+    LOGI("ab");
+    s32Ret = fwrite(pData, 1, u32Length, m_pFileID[0]);
     CHECK_RET_VALUE(s32Ret, "fwrite, u32Length:%d, ID:%d, u32pos:%d, ret:0x%x",
-        u32Length, *(YHC_U32 *)pData, u32pos, s32Ret);
+        u32Length, 0, u32pos, s32Ret);
     return YHC_SUCCESS;
 }
 
 
 YHC_S32 FileStorage::read(YHC_U32 u32pos, YHC_VOID *pData, YHC_U32 u32Length)
 {
+    YHC_S32 s32ReadCnt = 0;
+
+    fseek(m_pFileID[0], u32pos, SEEK_SET);
+
+    s32ReadCnt = fread(pData, 1, u32Length, m_pFileID[0]);
+    if (s32ReadCnt != (YHC_S32)u32Length)
+    {
+        LOGE("fwrite, u32Length:%d, ID:%d, u32pos:%d, ReadCnt:0x%x",
+            u32Length, *(YHC_U32 *)pData, u32pos, s32ReadCnt);
+
+        return YHC_FAILURE;
+    }
+
+    return YHC_SUCCESS;
+
+}
+
+YHC_S32 FileStorage::size(YHC_U32 *pu32Size)
+{
+
+    fseek(m_pFileID[0], 0, SEEK_END);
+    *pu32Size = ftell(m_pFileID[0]);
+
+    return YHC_SUCCESS;
+
+}
+
+YHC_S32 FileStorage::clear()
+{
+    system("rm -rf /yhc/db/*");
+
     return YHC_SUCCESS;
 
 }

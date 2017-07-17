@@ -16,7 +16,6 @@ static void *testPthreadOne(void *arg)
     YHC_DB_TEST2_ST stTest2;
     memset(&stTest1, 0, sizeof(YHC_DB_TEST1_ST));
     memset(&stTest2, 0, sizeof(YHC_DB_TEST2_ST));
-    YhcDbo::getDbo();
 
     while(1)
     {

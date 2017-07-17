@@ -13,12 +13,15 @@ using namespace std;
 
 typedef struct Yhc_DB_DATA_ST
 {
+    YHC_U32     u32AttrId;
     YHC_U32     u32FileId;
     YHC_U32     u32Pos;
     YHC_U32     u32Len;
     YHC_VOID    *pData;
     YHC_U32     u32CheckSum;
 }YHC_DB_DATA_ST;
+
+#define LENGTH (sizeof(YHC_U32) + sizeof(YHC_U32) + sizeof(YHC_U32) + sizeof(YHC_U32))
 
 
 class YhcDbo
@@ -32,8 +35,7 @@ public:
 private:
     YhcDbo();
     ~YhcDbo();
-
-    YHC_S32 inserUsrData();
+    YHC_S32 loadUsrDefault(YhcDbo *pDbo);
     map<YHC_U32, YHC_DB_DATA_ST *>   m_mapDbo;
     FileStorage *m_pFileStorage;
     static YhcDbo *m_pYhcDboClass;
@@ -45,7 +47,6 @@ private:
 inline YhcDbo::YhcDbo()
 {
     init("/yhc/db/usr.db", 0);
-    inserUsrData();
 }
 
 inline YhcDbo::~YhcDbo()

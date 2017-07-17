@@ -94,3 +94,5 @@ LOCAL_MODULE:= test_binder_server
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_EXECUTABLE)
+
+$(info #######################)
