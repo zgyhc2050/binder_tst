@@ -17,6 +17,29 @@ static void *testPthreadOne(void *arg)
     memset(&stTest1, 0, sizeof(YHC_DB_TEST1_ST));
     memset(&stTest2, 0, sizeof(YHC_DB_TEST2_ST));
 
+    FILE *PfILE;
+    PfILE = fopen("/yhc/db/test.db", "w+b");
+    YHC_U32 u32Length = 15;
+
+    LOGI("1");
+
+    fseek(PfILE, 0, SEEK_SET);
+    LOGI("2");
+
+    fwrite(&u32Length, 1, sizeof(u32Length), PfILE);
+    LOGI("3");
+
+    fseek(PfILE, 4, SEEK_SET);
+    LOGI("4");
+    fwrite(&u32Length, 1, sizeof(u32Length), PfILE);
+    LOGI("5");
+
+    fseek(PfILE, 8, SEEK_SET);
+    LOGI("6");
+    fwrite(&u32Length, 1, sizeof(u32Length), PfILE);
+    LOGI("7");
+    LOGI("ab");
+
     while(1)
     {
         YhcDbo::getDbo()->query(YHC_DBO_ATTR_TEST1, &stTest1, sizeof(YHC_DB_TEST1_ST));

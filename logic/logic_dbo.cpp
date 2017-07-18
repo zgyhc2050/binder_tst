@@ -25,6 +25,7 @@ static YHC_S32 inserUsrData(YhcDbo *pDbo)
     stTest2.bByPass = YHC_FALSE;
     stTest2.pName = "zgyhc2050";
     stTest2.u32Width = 720;
+    stTest2.bxxx[0] = YHC_FALSE;
 
     pDbo->insert(YHC_DBO_ATTR_TEST1, &stTest1, sizeof(YHC_DB_TEST1_ST));
     pDbo->insert(YHC_DBO_ATTR_TEST2, &stTest2, sizeof(YHC_DB_TEST2_ST));
@@ -156,46 +157,51 @@ YHC_S32 YhcDbo::insert(YHC_DBO_ATTR_E enDbAttr, YHC_VOID *pData, YHC_U32 u32Leng
 
     YHC_DB_DATA_ST  *pstData = YHC_NULL;
     YHC_VOID        *pDat = YHC_NULL;
+    YHC_VOID        *pTemp = YHC_NULL;
 
     pstData = (YHC_DB_DATA_ST *)malloc(sizeof(YHC_DB_DATA_ST));
     pDat = malloc(u32Length);
-    memcpy(pDat, pData, u32Length);
+    pTemp = malloc(LENGTH + u32Length + 4);
 
-
-    pstData->u32Pos = 0;
+    *(YHC_U32 *)(pTemp+8) = 0;
     if (0 == m_mapDbo.size())
     {
         YHC_U32 u32Version = VERSION;
         LOGI("first insert data");
         m_pFileStorage->write(0, &u32Version, sizeof(u32Version));
-
-        LOGI("111");
-        pstData->u32Pos = sizeof(u32Version);
-        LOGI("2");
+        *(YHC_U32 *)(pTemp+8) = sizeof(u32Version);
     }
 
 
     map<YHC_U32, YHC_DB_DATA_ST *>::iterator it = m_mapDbo.find(enDbAttr);
 //    map<YHC_U32, YHC_DB_DATA_ST *>::reverse_iterator iter = m_mapDbo.rbegin();
-
     if (it == m_mapDbo.end())
     {
 
         for (it = m_mapDbo.begin(); it != m_mapDbo.end(); it++)
         {
-            pstData->u32Pos = it->second->u32Len;
-            LOGW("pstData->u32Pos:%d", pstData->u32Pos);
+            *(YHC_U32 *)(pTemp+8) = it->second->u32Pos + it->second->u32Len + 20;
+            LOGW("pstData->u32Pos:%d", *(YHC_U32 *)(pTemp+8));
         }
 
+        *(YHC_U32 *)pTemp = enDbAttr;
+        *(YHC_U32 *)(pTemp+4) = 0;
+        *(YHC_U32 *)(pTemp+12) = u32Length;
+        memcpy(pTemp+16, pData, u32Length + 20);
 
+
+        memcpy(pDat, pData, u32Length);
         pstData->u32AttrId = enDbAttr;
         pstData->u32FileId = 0;
+        pstData->u32Pos = *(YHC_U32 *)(pTemp+8);
         pstData->u32Len = u32Length;
         pstData->pData = pDat;
         pstData->u32CheckSum = checkSum(pData, u32Length);
         m_mapDbo[enDbAttr] = pstData;
 
-        m_pFileStorage->write(pstData->u32Pos, pstData, u32Length);
+        LOGW("enDbAttr:%d, pstData->u32Pos:%d, u32Length:%d", enDbAttr, pstData->u32Pos, u32Length);
+
+        m_pFileStorage->write(pstData->u32Pos, pTemp, u32Length + 20);
     }
     else
     {

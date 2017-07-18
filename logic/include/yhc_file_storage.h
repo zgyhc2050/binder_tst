@@ -19,6 +19,7 @@ public:
     YHC_S32 clear();
 private:
     static FILE *m_pFileID[MAX_FILE_NUM];
+    static YHC_CHAR *m_pFilePath[MAX_FILE_NUM];
     FILE *m_pCurFileID;
     char *m_pchrPath;
 

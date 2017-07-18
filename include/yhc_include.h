@@ -28,6 +28,7 @@ typedef struct Yhc_DB_TEST2_ST
     YHC_CHAR *pName;
     YHC_U32 u32Width;
     YHC_BOOL bByPass;
+    YHC_BOOL bxxx[10];
 }YHC_DB_TEST2_ST;
 
 
